@@ -1,18 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
     <title>{% block title %}{% endblock %}</title>
-    <link rel="icon" href="static/images/favicon.ico">
-    <link rel="stylesheet" media="screen" href="static/styles/styles.css">
-    {% block styles %}{% endblock %}
-    <meta name="viewport" content="width=device-width">
 </head>
-<body>
 
-{% include "/includes/header.html" %}
+{% include "./header.html" %}
 
-<div class="main_container center-screen">
+<div class="container">
     {% block content %}{% endblock %}
 </div>
 

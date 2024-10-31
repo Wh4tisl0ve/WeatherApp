@@ -1,9 +1,18 @@
-<header>
-    <h1>Табло теннисного матча</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Создать матч</a></li>
-            <li><a href="/matches">Таблица матчей</a></li>
+<nav class="py-2 bg-light border-bottom">
+    <div class="container d-flex flex-wrap">
+        <ul class="nav me-auto">
+            <li class="nav-item"><a href="{% url 'main' %}" class="nav-link link-dark px-2 active"
+                    aria-current="page">Главная</a></li>
+            <li class="nav-item"><a href="{% url 'search' %}" class="nav-link link-dark px-2">Поиск локаций</a></li>
         </ul>
-    </nav>
-</header>
+        <ul class="nav">
+            {% if user.is_authenticated %}
+            <p class="nav-link link-dark px-2">Привет, {{ user.username }}!</p>
+            <form id="logout-form" action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Выйти</button>
+            </form>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
