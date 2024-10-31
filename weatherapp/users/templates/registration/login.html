@@ -1,35 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends './base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    <title>Авторизация</title>
-</head>
+{% block title %}
+Регистрация
+{% endblock %}
 
-<body>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="border d-flex flex-column" style="width:30rem;">
-            <div style="background:black;" class="text-center text-white">
-                <p class="h5 mt-2 py-4 font-weight-bold">Авторизация</p>
-            </div>
-            <div class="mx-4 mt-4 p-3">
-                {% bootstrap_form form %}
-                {% buttons %}
-                <p class="text-center">
-                    <button class="btn btn-block btn-outline-dark my-3" type="submit">Вход</button>
-                    <button class="btn" type="reset">Очистить форму</button>
-                </p>
-                {% endbuttons %}
-                <p class="text-center">Ещё нет аккаунта? <a class="text-decoration-none"
-                        href="{% url 'register' %}">Регистрация</a></p>
-            </div>
-        </div>
-        </div>
-    </form>
-</body>
+{% block content %}
 
-</html>
+<p class="text-center">
+    <button class="btn btn-block btn-outline-dark my-3" type="submit">Вход</button>
+    <button class="btn" type="reset">Очистить форму</button>
+</p>
+
+<p class="text-center">Ещё нет аккаунта? <a class="text-decoration-none" href="{% url 'register' %}">Регистрация</a></p>
+
+{% endblock %}
