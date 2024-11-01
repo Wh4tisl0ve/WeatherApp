@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import main_page, search_page
+from .views import MainView, SearchView, delete_location
 
 urlpatterns = [
-    path("", main_page, name='main'),
-    path("search/", search_page, name='search'),
+    path("", MainView.as_view(), name='main'),
+    path("search/", SearchView.as_view(), name='search'),
+    path("delete/location/<int:location_id>/",  delete_location, name="location-delete")
 ]
