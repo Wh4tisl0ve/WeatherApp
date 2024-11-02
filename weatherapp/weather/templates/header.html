@@ -6,6 +6,17 @@
             <li class="nav-item"><a href="{% url 'search' %}" class="nav-link link-dark px-2">Поиск локаций</a></li>
         </ul>
         <ul class="nav">
+            <div class="input-group rounded mt-3">
+                <form method="GET" action="{% url 'search' %}">
+                    <input type="search" class="form-control rounded" name='name' placeholder="Поиск локаций"
+                        aria-label="Search" aria-describedby="search-addon" />
+                    <span class="input-group-text border-0" id="search-addon">
+                        <button class="fas fa-search" type="submit"><i>Поиск</i></button>
+                    </span>
+                </form>
+            </div>
+        </ul>
+        <ul class="nav">
             {% if user.is_authenticated %}
             <p class="nav-link link-dark px-2">Привет, {{ user.username }}!</p>
             <form id="logout-form" action="{% url 'logout' %}" method="POST">
