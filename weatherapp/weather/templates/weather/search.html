@@ -1,16 +1,6 @@
 {% extends '../base.html' %}
 
 {% block content %}
-
-<div class="input-group rounded mt-3">
-    <form method="GET">
-        <input type="search" class="form-control rounded" name='name' placeholder="Поиск локаций" aria-label="Search"
-            aria-describedby="search-addon" />
-        <span class="input-group-text border-0" id="search-addon">
-            <button class="fas fa-search" type="submit"><i>Поиск</i></button>
-        </span>
-    </form>
-</div>
 {% if location_name %}
 <section>
     <div class="text-center container py-5">
@@ -20,46 +10,30 @@
             <form method="POST">
                 {% csrf_token %}
                 <div class="col-lg-4 col-md-6 mb-4">
-
                     <div class="card">
                         <div class="card-body">
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3">{{ loc.name }}</h5>
-                            </a>
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3">{{ loc.country }}</h5>
-                            </a>
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3">{{ loc.wind_speed }}</h5>
-                            </a>
+                            <h5 class="card-title mb-3">{{ loc.name }}</h5>
+                            <h5 class="card-title mb-3">{{ loc.country }}</h5>
+                            <h5 class="card-title mb-3">{{ loc.wind_speed }}</h5>
                             Температура
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3">{{ loc.temp }}</h5>
-                            </a>
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3">{{ loc.temp_min }}</h5>
-                            </a>
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3">{{ loc.temp_max }}</h5>
-                            </a>
+                            <h5 class="card-title mb-3">{{ loc.temp }}</h5>
+                            <h5 class="card-title mb-3">{{ loc.temp_min }}</h5>
+                            <h5 class="card-title mb-3">{{ loc.temp_max }}</h5>
                             Координаты
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3"><input name="longitude" value="{{ loc.longitude }}">{{
-                                    loc.longitude }}</h5>
-                            </a>
-                            <a href="" class="text-reset">
-                                <h5 class="card-title mb-3"><input name="latitude" value="{{ loc.latitude }}">{{
-                                    loc.latitude }}</h5>
-                            </a>
-                            <button type="submit" class="btn btn-primary">Добавить локацию в коллекцию</button>
+                            <h5 class="card-title mb-3">{{ loc.longitude }}</h5>
+                            <h5 class="card-title mb-3">{{ loc.latitude }}</h5>
+                            <input type="hidden" name="longitude" value="{{ loc.longitude|stringformat:" .9f" }}" readonly>
+                            <input type="hidden" name="latitude" value="{{ loc.latitude|stringformat:" .9f" }}" readonly>
+                            <button type="submit" class="btn btn-success">Добавить локацию в коллекцию</button>
                         </div>
                     </div>
-
                 </div>
             </form>
             {% endfor %}
         </div>
 </section>
+{% else %}
+Ничего не найдено :(
 {% endif %}
 
 
