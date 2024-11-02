@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .models import Locations
 from .services.weather_api_service import WeatherApiService
@@ -36,7 +35,7 @@ class MainView(LoginRequiredMixin, TemplateView):
         )
 
         location_entity.delete()
-        return redirect('main')
+        return redirect("main")
 
 
 class SearchView(LoginRequiredMixin, TemplateView):
@@ -57,8 +56,8 @@ class SearchView(LoginRequiredMixin, TemplateView):
                     "locations": all_search_locations,
                 },
             )
-        else:
-            return render(request, "weather/search.html")
+
+        return render(request, "weather/search.html")
 
     def post(self, request, *args, **kwargs) -> HttpResponse:
         current_user = request.user
@@ -78,4 +77,4 @@ class SearchView(LoginRequiredMixin, TemplateView):
         )
 
         location_entity.save()
-        return redirect('main')
+        return redirect("main")
