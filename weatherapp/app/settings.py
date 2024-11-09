@@ -18,14 +18,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'weather',
-    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'weather',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,9 @@ DATABASES = {
         'PASSWORD': config('DATABASE_PASSWORD'),
         'HOST': config('DATABASE_HOST'),
         'PORT': config('DATABASE_PORT'),
+        'TEST': {
+            'NAME': 'weatherapp',
+        },
     }
 }
 
@@ -106,12 +109,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'main'
-LOGOUT_REDIRECT_URL = 'login'
+# Redirect settings
+
+LOGIN_REDIRECT_URL = 'weather:main'
+LOGOUT_REDIRECT_URL = 'users:login'
+
+# Custom user model
 
 AUTH_USER_MODEL = "users.User"
+
+# Session settings
+
+SESSION_COOKIE_AGE = 15 * 60
