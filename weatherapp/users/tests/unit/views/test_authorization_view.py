@@ -24,3 +24,13 @@ class AuthorizationViewTestCase(TestCase):
         response = client.post(reverse('users:login'), data=data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('weather:main'))
+
+    def test_incorrect_authorization(self):
+        data = {
+            'username': 'user2',
+            'password': 'password',
+        }
+        client = Client()
+        response = client.post(reverse('users:login'), data=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/login.html')
