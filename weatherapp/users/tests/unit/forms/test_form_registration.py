@@ -6,7 +6,7 @@ from users.forms import UserCreationForm
 User = get_user_model()
 
 
-class RegistrationFormTestClass(TestCase):
+class RegistrationFormTestCase(TestCase):
     def setUp(self):
         data = {
             'username': 'test',

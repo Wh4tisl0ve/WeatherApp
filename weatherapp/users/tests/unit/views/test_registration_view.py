@@ -5,7 +5,7 @@ from django.urls import reverse
 User = get_user_model()
 
 
-class RegistrationViewTestClass(TestCase):
+class RegistrationViewTestCase(TestCase):
 
     def setUp(self):
         User.objects.create_user(username='user1', password='password').save()

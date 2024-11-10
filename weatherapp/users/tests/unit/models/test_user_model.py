@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class UserModelTest(TestCase):
+class UserModelTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         User.objects.create_user(username='user', password='password')
