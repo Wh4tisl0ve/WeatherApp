@@ -41,19 +41,32 @@ class WeatherServiceTestCase(TestCase):
         self.assertEqual(location_dto.latitude, 55.752)
         self.assertEqual(location_dto.longitude, 37.6156)
 
-    @patch.object(WeatherApiService, 'get_location_by_name')
-    def test_get_all_locations_by_name(self, mock_get_location_by_coord):
-        mock_get_location_by_coord.return_value = [
-            LocationDTO(name="Moscow",
-                        latitude=55.7504461,
-                        longitude=37.6174943,
-                        country="RU"),
-            LocationDTO(name="Moscow",
-                        latitude=55.7504461,
-                        longitude=37.6174943,
-                        country="RU"),
+    @patch('weather.services.weather_api_service.requests.get')
+    def test_get_all_locations_by_name(self, mock_requests_get):
+        locations = [
+            {
+                "name": "Moscow",
+                "lat": 55.7504461,
+                "lon": 37.6174943,
+                "country": "RU",
+            },
+            {
+                "name": "Moscow",
+                "lat": 46.7323875,
+                "lon": -117.0001651,
+                "country": "US",
+            },
         ]
+        mock_response = Mock()
+
+        mock_response.json.return_value = locations
+        mock_requests_get.return_value = mock_response
 
         locations_dto = WeatherApiService.get_all_locations_by_name(name='Москва', limit=2)
         self.assertIsInstance(locations_dto, list)
         self.assertEqual(len(locations_dto), 2)
+
+        for loc_dto, loc_dict in zip(locations_dto, locations):
+            self.assertEqual(loc_dto.name, loc_dict.get('name'))
+            self.assertEqual(loc_dto.longitude, loc_dict.get('lon'))
+            self.assertEqual(loc_dto.latitude, loc_dict.get('lat'))
