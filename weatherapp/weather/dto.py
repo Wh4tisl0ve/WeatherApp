@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 
 
-@dataclass(frozen=True)
+@dataclass
 class LocationDTO:
-    name: str
-    country: str
-    wind_speed: float
-    temp: float
-    temp_min: float
-    temp_max: float
-    longitude: float
-    latitude: float
+    name: str = None
+    country: str = None
+    wind_speed: float = None
+    temp: float = None
+    temp_min: float = None
+    temp_max: float = None
+    longitude: float = None
+    latitude: float = None
