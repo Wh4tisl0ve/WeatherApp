@@ -1,29 +1,24 @@
 <nav class="py-2 bg-light border-bottom">
     <div class="container d-flex flex-wrap">
         <ul class="nav me-auto">
-            <li class="nav-item"><a href="{% url 'main' %}" class="nav-link link-dark px-2 active"
-                    aria-current="page">Главная</a></li>
-            <li class="nav-item"><a href="{% url 'search' %}" class="nav-link link-dark px-2">Поиск локаций</a></li>
+            <li class="nav-item"><a href="{% url 'weather:main' %}" class="nav-link link-dark px-2 active"
+                                    aria-current="page">Главная</a></li>
+            <li class="nav-item"><a href="{% url 'weather:search' %}" class="nav-link link-dark px-2">Поиск локаций</a>
+            </li>
         </ul>
+        <div class="col-lg-4 col-xl-6">
+            <form class="d-flex flex-row mb-2 p-1 bg-white input-group" method="GET" action="{% url 'weather:search' %}">
+                <input type="search" maxlength="20" class="form-control rounded-0" name='name' placeholder="Поиск локаций"
+                           aria-label="Search" aria-describedby="search-addon">
+                <button class="btn btn-secondary rounded-0 flex-shrink-0" type="submit">Поиск</button>
+            </form>
+        </div>
         <ul class="nav">
-            <div class="input-group rounded mt-3">
-                <form method="GET" action="{% url 'search' %}">
-                    <input type="search" class="form-control rounded" name='name' placeholder="Поиск локаций"
-                        aria-label="Search" aria-describedby="search-addon" />
-                    <span class="input-group-text border-0" id="search-addon">
-                        <button class="fas fa-search" type="submit"><i>Поиск</i></button>
-                    </span>
-                </form>
-            </div>
-        </ul>
-        <ul class="nav">
-            {% if user.is_authenticated %}
             <p class="nav-link link-dark px-2">Привет, {{ user.username }}!</p>
-            <form id="logout-form" action="{% url 'logout' %}" method="POST">
+            <form id="logout-form" action="{% url 'users:logout' %}" method="POST">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Выйти</button>
             </form>
-            {% endif %}
         </ul>
     </div>
 </nav>

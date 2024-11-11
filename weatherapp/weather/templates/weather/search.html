@@ -15,14 +15,16 @@
                                         <h5 class="card-title mb-3">{{ loc.name }}</h5>
                                         <h5 class="card-title mb-3">{{ loc.country }}</h5>
                                         Координаты
-                                        <p>lon:</p> <h5 class="card-title mb-3">{{ loc.longitude }}</h5>
-                                        lat: <h5 class="card-title mb-3">{{ loc.latitude }}</h5>
-                                        <input type="hidden" name="name" value="{{ loc.name }}"
-                                               readonly>
-                                        <input type="hidden" name="longitude" value="{{ loc.longitude }}"
-                                               readonly>
-                                        <input type="hidden" name="latitude" value="{{ loc.latitude }}"
-                                               readonly>
+                                        <h5 class="card-title mb-3">{{ loc.longitude }}</h5>
+                                        <h5 class="card-title mb-3">{{ loc.latitude }}</h5>
+                                        <input type="hidden" name="name"
+                                               value="{{ loc.name }}" readonly>
+                                        <input type="hidden" name="country"
+                                               value="{{ loc.country }}" readonly>
+                                        <input type="hidden" name="longitude"
+                                               value="{{ loc.longitude|stringformat:" .9f" }}" readonly>
+                                        <input type="hidden" name="latitude"
+                                               value="{{ loc.latitude|stringformat:" .9f" }}" readonly>
                                         <button type="submit" class="btn btn-success">Добавить локацию в коллекцию
                                         </button>
                                     </div>
@@ -34,7 +36,12 @@
             </div>
         </section>
     {% else %}
-        Ничего не найдено :(
+        <div class="container d-flex
+         align-items-center
+         justify-content-center
+         min-vh-100">
+            <h1>Ничего не найдено :(</h1>
+        </div>
     {% endif %}
 
 

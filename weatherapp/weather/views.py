@@ -7,18 +7,20 @@ from .models import Locations
 from .services.weather_api_service import WeatherApiService
 
 
-weather_service = WeatherApiService()
-
-
-class MainView(LoginRequiredMixin, TemplateView):
-    def get(self, request, *args, **kwagrs):
+class MainPageView(LoginRequiredMixin, TemplateView):
+    def get(self, request, *args, **kwargs):
         current_user = request.user
 
-        user_locations = Locations.objects.filter(users=current_user)
-        user_locations_dto = [
-            weather_service.get_location_by_coord(loc.latitude, loc.longitude)
-            for loc in user_locations
-        ]
+        user_locations = Locations.objects.filter(user=current_user)
+        user_locations_dto = []
+
+        for loc in user_locations:
+            location_dto = WeatherApiService.get_location_by_coord(loc.latitude, loc.longitude)
+
+            location_dto.name = loc.name
+            location_dto.country = loc.country
+
+            user_locations_dto.append(location_dto)
 
         return render(
             request, "weather/index.html", context={"locations": user_locations_dto}
@@ -29,22 +31,22 @@ class MainView(LoginRequiredMixin, TemplateView):
         latitude_request = float(request.POST.get("latitude"))
         longitude_request = float(request.POST.get("longitude"))
 
-        location_entity = Locations.objects.filter(users=current_user).get(
+        location_entity = Locations.objects.filter(user=current_user).get(
             latitude=latitude_request,
             longitude=longitude_request,
         )
 
         location_entity.delete()
-        return redirect("main")
+        return redirect("weather:main")
 
 
-class SearchView(LoginRequiredMixin, TemplateView):
-    def get(self, request, *args, **kwagrs) -> HttpResponse:
+class SearchPageView(LoginRequiredMixin, TemplateView):
+    def get(self, request, *args, **kwargs) -> HttpResponse:
         params = request.GET
         location_name = params.get("name")
 
         if location_name:
-            all_search_locations = weather_service.get_all_locations_by_name(
+            all_search_locations = WeatherApiService.get_all_locations_by_name(
                 name=location_name
             )
 
@@ -61,20 +63,23 @@ class SearchView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs) -> HttpResponse:
         current_user = request.user
-        location_latitude = float(request.POST.get("latitude"))
-        location_longitude = float(request.POST.get("longitude"))
+        name = request.POST.get("name")
+        country = request.POST.get("country")
+        location_latitude = float(request.POST.get("latitude").replace(',', '.'))
+        location_longitude = float(request.POST.get("longitude").replace(',', '.'))
 
-        location_dto = weather_service.get_location_by_coord(
+        location_dto = WeatherApiService.get_location_by_coord(
             lat=location_latitude,
             lon=location_longitude,
         )
 
         location_entity = Locations(
-            name=location_dto.name,
+            name=name,
+            country=country,
             latitude=location_dto.latitude,
             longitude=location_dto.longitude,
-            users=current_user,
+            user=current_user,
         )
 
         location_entity.save()
-        return redirect("main")
+        return redirect("weather:main")
