@@ -1,5 +1,7 @@
 {% extends '../base.html' %}
 
+{% load static %}
+
 {% block content %}
     {% if location_name %}
         <section>
@@ -7,20 +9,36 @@
                 <h4 class="mt-4 mb-5"><strong>Локации по запросу "{{ location_name }}"</strong></h4>
                 <div class="row">
                     {% for loc in locations %}
-                        <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="col-lg-6 col-md-6 mb-4">
                             <form method="POST">
                                 {% csrf_token %}
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-3">{{ loc.name }}</h5>
-                                        <h5 class="card-title mb-3">{{ loc.country }}</h5>
-                                        Координаты
-                                        <h5 class="card-title mb-3">{{ loc.longitude }}</h5>
-                                        <h5 class="card-title mb-3">{{ loc.latitude }}</h5>
-                                        <input type="hidden" name="name"
-                                               value="{{ loc.name }}" readonly>
-                                        <input type="hidden" name="country"
-                                               value="{{ loc.country }}" readonly>
+                                <div class="card text-body" style="border-radius: 35px;">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex">
+                                            <h6 class="flex-grow-1 text-wrap"></h6>
+                                            <h6>{{ loc.country }}
+                                                <img class='rounded-1 border'
+                                                     src="{% static 'icons/flags/' %}{{ loc.country|lower }}.svg"
+                                                     height="25px" alt="">
+                                            </h6>
+                                        </div>
+                                        <div class="d-flex flex-column text-center mt-5 mb-4">
+                                            <h6 class="display-4 mb-0 font-weight-bold">{{ loc.name|title }}</h6>
+                                        </div>
+                                        <div class="text-center">
+                                            <div>
+                                                <i class="fas fa-sun fa-fw" style="color: #868B94;"></i>
+                                                <img src="{% static 'icons/weather/compass.svg' %}" height="25px"
+                                                     alt="">
+                                                <span>{{ loc.longitude }} | {{ loc.latitude }}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <img src="{% static 'icons/weather/' %}{{ loc.icon_name }}.svg"
+                                                 width="130px" alt="">
+                                        </div>
+                                        <input type="hidden" name="name" value="{{ loc.name }}" readonly>
+                                        <input type="hidden" name="country" value="{{ loc.country }}" readonly>
                                         <input type="hidden" name="longitude"
                                                value="{{ loc.longitude|stringformat:" .9f" }}" readonly>
                                         <input type="hidden" name="latitude"

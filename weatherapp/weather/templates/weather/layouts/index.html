@@ -1,5 +1,7 @@
 {% extends '../base.html' %}
 
+{% load static %}
+
 {% block content %}
     <section>
         <div class="container py-5">
@@ -12,49 +14,62 @@
                             <div class="card text-body" style="border-radius: 35px;">
                                 <div class="card-body p-4">
                                     <div class="d-flex">
-                                        <h6 class="flex-grow-1">{{ loc.name }}</h6>
-                                        <h6>{{ loc.country }}</h6>
+                                        <h6 class="flex-grow-1 text-wrap">{{ loc.name|title }}</h6>
+
+                                        <h6>{{ loc.country }}
+                                            <img class='rounded-1 border'
+                                                 src="{% static 'icons/flags/' %}{{ loc.country|lower }}.svg"
+                                                 height="25px" alt="">
+                                        </h6>
                                     </div>
                                     <div class="d-flex flex-column text-center mt-5 mb-4">
                                         <h6 class="display-4 mb-0 font-weight-bold">{{ loc.temp }} °C</h6>
-                                        <span class="small" style="color: #868B94">Stormy</span>
+                                        <span class="small"
+                                              style="color: #868B94">Ощущается как {{ loc.feels_like }} °C</span>
+                                        <span class="big">{{ loc.weather_description|title }}</span>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1" style="font-size: 1rem;">
                                             <div>
                                                 <i class="fas fa-wind fa-fw" style="color: #868B94;"></i>
-                                                {% load static %}
-                                                <img src="{% static 'icons/windsock.svg' %}" height="25px" alt="">
-                                                <span>{{ loc.wind_speed }} km/h</span>
+                                                <img src="{% static 'icons/weather/windsock.svg' %}" height="25px"
+                                                     alt="">
+                                                <span>{{ loc.wind_speed }} м/с</span>
                                             </div>
                                             <div>
                                                 <i class="fas fa-tint fa-fw" style="color: #868B94;"></i>
-                                                <img src="{% static 'icons/temp_min.svg' %}" height="25px" alt="">
+                                                <img src="{% static 'icons/weather/temp_min.svg' %}" height="25px"
+                                                     alt="">
                                                 <span>{{ loc.temp_min }} °C</span>
                                             </div>
                                             <div>
                                                 <i class="fas fa-sun fa-fw" style="color: #868B94;"></i>
-                                                <img src="{% static 'icons/temp_max.svg' %}" height="25px" alt="">
+                                                <img src="{% static 'icons/weather/temp_max.svg' %}" height="25px"
+                                                     alt="">
                                                 <span>{{ loc.temp_max }} °C</span>
                                             </div>
                                             <div>
                                                 <i class="fas fa-sun fa-fw" style="color: #868B94;"></i>
-                                                <img src="{% static 'icons/compass.svg' %}" height="25px" alt="">
+                                                <img src="{% static 'icons/weather/compass.svg' %}" height="25px"
+                                                     alt="">
                                                 <span>{{ loc.longitude }} | {{ loc.latitude }}</span>
                                             </div>
                                         </div>
                                         <div>
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
-                                                 width="100px" alt="">
+                                            <img src="{% static 'icons/weather/' %}{{ loc.icon_name }}.svg"
+                                                 width="130px" alt="">
                                         </div>
                                     </div>
-                                    <input type="hidden" name="longitude"
-                                           value="{{ loc.longitude|stringformat:' .9f' }}" readonly>
-                                    <input type="hidden" name="latitude" value="{{ loc.latitude|stringformat:' .9f' }}"
-                                           readonly>
-                                    <button type="submit" class="btn btn-danger text-center">Удалить локацию из
-                                        коллекции
-                                    </button>
+                                    <div class="text-center">
+                                        <input type="hidden" name="longitude"
+                                               value="{{ loc.longitude|stringformat:' .9f' }}" readonly>
+                                        <input type="hidden" name="latitude"
+                                               value="{{ loc.latitude|stringformat:' .9f' }}"
+                                               readonly>
+                                        <button type="submit" class="btn btn-danger">Удалить локацию из
+                                            коллекции
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
