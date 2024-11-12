@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import HttpResponse
@@ -22,8 +23,12 @@ class MainPageView(LoginRequiredMixin, TemplateView):
 
             user_locations_dto.append(location_dto)
 
+        paginator = Paginator(user_locations_dto, 4)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
         return render(
-            request, "weather/index.html", context={"locations": user_locations_dto}
+            request, "weather/layouts/index.html", context={'page_obj': page_obj}
         )
 
     def post(self, request, *args, **kwargs):
@@ -52,14 +57,14 @@ class SearchPageView(LoginRequiredMixin, TemplateView):
 
             return render(
                 request,
-                "weather/search.html",
+                "weather/layouts/search.html",
                 context={
                     "location_name": location_name,
                     "locations": all_search_locations,
                 },
             )
 
-        return render(request, "weather/search.html")
+        return render(request, "weather/layouts/search.html")
 
     def post(self, request, *args, **kwargs) -> HttpResponse:
         current_user = request.user
