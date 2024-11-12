@@ -1,0 +1,42 @@
+{% extends '../base.html' %}
+
+{% block content %}
+    <section>
+        <div class="text-center container py-5">
+            <h4 class="mt-4 mb-5"><strong>Мои локации</strong></h4>
+            <div class="row">
+                {% for loc in page_obj %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">{{ loc.name }}</h5>
+                                    <h5 class="card-title mb-3">{{ loc.country }}</h5>
+                                    <h5 class="card-title mb-3">{{ loc.wind_speed }}</h5>
+                                    Температура
+                                    <h5 class="card-title mb-3">{{ loc.temp }}</h5>
+                                    <h5 class="card-title mb-3">{{ loc.temp_min }}</h5>
+                                    <h5 class="card-title mb-3">{{ loc.temp_max }}</h5>
+                                    Координаты
+                                    <h5 class="card-title mb-3">{{ loc.longitude }}</h5>
+                                    <h5 class="card-title mb-3">{{ loc.latitude }}</h5>
+                                    <input type="hidden" name="longitude"
+                                           value="{{ loc.longitude|stringformat:" .9f" }}" readonly>
+                                    <input type="hidden" name="latitude" value="{{ loc.latitude|stringformat:" .9f" }}"
+                                           readonly>
+                                    <button type="submit" class="btn btn-danger">Удалить локацию из коллекции</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+<div class="col-12">
+    {% include "weather/includes/pagination.html" %}
+</div>
+
+{% endblock %}
