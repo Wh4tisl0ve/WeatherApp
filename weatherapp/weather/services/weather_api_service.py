@@ -1,12 +1,12 @@
 import requests
-from decouple import config
+from os import environ
 
 from weather.dto import LocationWeatherDTO
 from weather.mappers import LocationWeatherMapper
 
 
 class WeatherApiService:
-    __SECRET_KEY = config("WEATHER_API_KEY")
+    __SECRET_KEY = environ.get("WEATHER_API_KEY")
     __api_get_one_location_v25 = "https://api.openweathermap.org/data/2.5/weather"
     __api_get_five_day_weather_v25 = "https://api.openweathermap.org/data/2.5/forecast"
     __api_find_all_locations_v10 = "https://api.openweathermap.org/geo/1.0/direct"
