@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16.0-alpine
+    container_name: dbpostgres
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod
+  web:
+    image: weather_project:latest
+    container_name: django_app
+    command: >
+      sh -c "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn app.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/user/static
+      - media_volume:/user/media
+    depends_on:
+      - db
+    expose:
+      - 8000
+    env_file:
+      - ./.env.prod
+  nginx:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx
+    container_name: nginx
+    image: nginx
+    volumes:
+      - static_volume:/user/static
+      - media_volume:/user/media
+    depends_on:
+      - web
+    ports:
+      - 1337:80
+
+volumes:
+  postgres_volume:
+  static_volume:
+  media_volume:
