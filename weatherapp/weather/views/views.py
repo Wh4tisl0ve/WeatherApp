@@ -1,5 +1,6 @@
+from decimal import Decimal
+
 from django.core.paginator import Paginator
-from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import HttpResponse
@@ -58,14 +59,19 @@ class SearchPageView(LoginRequiredMixin, TemplateView):
             all_search_locations = WeatherApiService.get_all_locations_by_name(
                 name=location_name
             )
-            
+
             existing_locations = Locations.objects.filter(
                 user=current_user
             ).values_list("latitude", "longitude")
 
             unique_loc_dto = [
-                loc_dto for loc_dto in all_search_locations
-                if (loc_dto.latitude, loc_dto.longitude) not in existing_locations
+                loc_dto
+                for loc_dto in all_search_locations
+                if (
+                    round(Decimal(loc_dto.latitude), 4),
+                    round(Decimal(loc_dto.longitude), 4),
+                )
+                not in existing_locations
             ]
 
             return render(

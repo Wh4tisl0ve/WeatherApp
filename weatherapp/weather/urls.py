@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import MainPageView, SearchPageView
+from .views.views import MainPageView, SearchPageView
 
 
 urlpatterns = [
