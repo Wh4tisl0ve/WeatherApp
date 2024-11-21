@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.contrib.sessions.models import Session
 
-from weather.views import MainPageView
+from weather.views.views import MainPageView
 
 User = get_user_model()
 
