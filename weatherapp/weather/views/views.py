@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator
+from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from .models import Locations
-from .services.weather_api_service import WeatherApiService
+from weather.models import Locations
+from weather.services.weather_api_service import WeatherApiService
 
 
 class MainPageView(LoginRequiredMixin, TemplateView):
@@ -16,7 +17,9 @@ class MainPageView(LoginRequiredMixin, TemplateView):
         user_locations_dto = []
 
         for loc in user_locations:
-            location_dto = WeatherApiService.get_location_by_coord(loc.latitude, loc.longitude)
+            location_dto = WeatherApiService.get_location_by_coord(
+                loc.latitude, loc.longitude
+            )
 
             location_dto.name = loc.name
             location_dto.country = loc.country
@@ -28,7 +31,7 @@ class MainPageView(LoginRequiredMixin, TemplateView):
         page_obj = paginator.get_page(page_number)
 
         return render(
-            request, "weather/layouts/index.html", context={'page_obj': page_obj}
+            request, "weather/layouts/index.html", context={"page_obj": page_obj}
         )
 
     def post(self, request, *args, **kwargs):
@@ -47,6 +50,7 @@ class MainPageView(LoginRequiredMixin, TemplateView):
 
 class SearchPageView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs) -> HttpResponse:
+        current_user = request.user
         params = request.GET
         location_name = params.get("name")
 
@@ -54,13 +58,22 @@ class SearchPageView(LoginRequiredMixin, TemplateView):
             all_search_locations = WeatherApiService.get_all_locations_by_name(
                 name=location_name
             )
+            
+            existing_locations = Locations.objects.filter(
+                user=current_user
+            ).values_list("latitude", "longitude")
+
+            unique_loc_dto = [
+                loc_dto for loc_dto in all_search_locations
+                if (loc_dto.latitude, loc_dto.longitude) not in existing_locations
+            ]
 
             return render(
                 request,
                 "weather/layouts/search.html",
                 context={
                     "location_name": location_name,
-                    "locations": all_search_locations,
+                    "locations": unique_loc_dto,
                 },
             )
 
@@ -70,8 +83,8 @@ class SearchPageView(LoginRequiredMixin, TemplateView):
         current_user = request.user
         name = request.POST.get("name")
         country = request.POST.get("country")
-        location_latitude = float(request.POST.get("latitude").replace(',', '.'))
-        location_longitude = float(request.POST.get("longitude").replace(',', '.'))
+        location_latitude = float(request.POST.get("latitude").replace(",", "."))
+        location_longitude = float(request.POST.get("longitude").replace(",", "."))
 
         location_dto = WeatherApiService.get_location_by_coord(
             lat=location_latitude,
