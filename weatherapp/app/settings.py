@@ -70,7 +70,7 @@ DATABASES = {
         "HOST": environ.get("POSTGRES_HOST", "localhost"),
         "PORT": environ.get("POSTGRES_PORT", "5432"),
         "TEST": {
-            "NAME": "weatherapp",
+            "NAME": "weatherapp_test",
         },
     }
 }
