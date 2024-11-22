@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.contrib.auth.password_validation import NumericPasswordValidator
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.forms import AuthenticationForm
 
 from .validators import validate_latin_and_num
 from .models import User
@@ -68,8 +67,16 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 
-class UserAuthorizationForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super(UserAuthorizationForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Имя пользователя'})
-        self.fields['password'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Пароль'})
+class UserAuthorizationForm(forms.Form):
+    username = forms.CharField(
+        label="Логин",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        required=True,
+        validators=[validate_latin_and_num],
+    )
+    password = forms.CharField(
+        label="Пароль",
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Введите пароль", "class": "form-control"}
+        ),
+    )

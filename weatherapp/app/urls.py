@@ -9,7 +9,6 @@ handler404 = NotFoundErrorView()
 handler500 = ServerErrorView()
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('accounts/', include(('users.urls', 'users'), namespace='accounts')),
     path('',  include(('weather.urls', 'weather'), namespace='weather'))
 ]

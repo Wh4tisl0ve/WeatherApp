@@ -110,7 +110,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"  
 
-
 STATICFILES_DIRS = [
     BASE_DIR / 'static',  
 ]
@@ -135,3 +134,9 @@ AUTH_USER_MODEL = "users.User"
 # Session settings
 
 SESSION_COOKIE_AGE = 15 * 60
+
+# Custom authenticate
+
+AUTHENTICATION_BACKENDS = [
+    'users.backend.CustomAuthBackend', 
+]

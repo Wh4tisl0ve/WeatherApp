@@ -11,7 +11,7 @@ from weather.services.weather_api_service import WeatherApiService
 
 
 class MainPageView(LoginRequiredMixin, TemplateView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         current_user = request.user
 
         user_locations = Locations.objects.filter(user=current_user)
@@ -35,7 +35,7 @@ class MainPageView(LoginRequiredMixin, TemplateView):
             request, "weather/layouts/index.html", context={"page_obj": page_obj}
         )
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         current_user = request.user
         latitude_request = float(request.POST.get("latitude"))
         longitude_request = float(request.POST.get("longitude"))
@@ -50,7 +50,7 @@ class MainPageView(LoginRequiredMixin, TemplateView):
 
 
 class SearchPageView(LoginRequiredMixin, TemplateView):
-    def get(self, request, *args, **kwargs) -> HttpResponse:
+    def get(self, request) -> HttpResponse:
         current_user = request.user
         params = request.GET
         location_name = params.get("name")
@@ -85,7 +85,7 @@ class SearchPageView(LoginRequiredMixin, TemplateView):
 
         return render(request, "weather/layouts/search.html")
 
-    def post(self, request, *args, **kwargs) -> HttpResponse:
+    def post(self, request) -> HttpResponse:
         current_user = request.user
         name = request.POST.get("name")
         country = request.POST.get("country")
