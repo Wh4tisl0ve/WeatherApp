@@ -13,7 +13,7 @@ WORKDIR /user
 
 RUN mkdir /user/static && mkdir /user/media && chown -R user:user /user && chmod 755 /user
 
-COPY --chown=user:user . .
+COPY --chown=user:user ./weatherapp/ .
 
 RUN pip install -r requirements.txt
 

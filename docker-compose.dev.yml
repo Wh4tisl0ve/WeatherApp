@@ -10,7 +10,7 @@ services:
       - POSTGRES_DB=weatherapp
   web:
     build: 
-      context: ./weatherapp
+      context: .
       dockerfile: Dockerfile.dev
     container_name: django_app
     command: python manage.py runserver 0.0.0.0:8000
