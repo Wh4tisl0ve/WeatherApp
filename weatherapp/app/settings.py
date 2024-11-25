@@ -138,5 +138,5 @@ SESSION_COOKIE_AGE = 15 * 60
 # Custom authenticate
 
 AUTHENTICATION_BACKENDS = [
-    'users.backend.CustomAuthBackend', 
+    'auth.backend.CustomAuthBackend', 
 ]
