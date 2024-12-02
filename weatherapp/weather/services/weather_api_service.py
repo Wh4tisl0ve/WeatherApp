@@ -1,5 +1,6 @@
 import requests
-from os import environ
+
+from django.conf import settings
 
 from weather.dto import LocationWeatherDTO
 from .mappers import LocationWeatherMapper
@@ -7,7 +8,7 @@ from ..exceptions import OpenWeatherApiError
 
 
 class WeatherApiService:
-    __SECRET_KEY = "0c290d5d303944e70dd43621b48c975f"
+    __SECRET_KEY = settings.WEATHER_API_KEY
     __api_get_one_location_v25 = "https://api.openweathermap.org/data/2.5/weather"
     __api_find_all_locations_v10 = "https://api.openweathermap.org/geo/1.0/direct"
 

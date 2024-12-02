@@ -140,3 +140,5 @@ SESSION_COOKIE_AGE = 15 * 60
 AUTHENTICATION_BACKENDS = [
     "auth.backend.CustomAuthBackend",
 ]
+
+WEATHER_API_KEY = environ.get("WEATHER_API_KEY")
