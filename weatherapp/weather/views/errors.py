@@ -19,3 +19,4 @@ class NotFoundErrorView:
 class ServerErrorView:
     def __call__(self, request, exception=None):
         return render(request, "weather/layouts/errors/500.html", status=500)
+

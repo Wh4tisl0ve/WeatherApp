@@ -4,43 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>Добро пожаловать</title>
     {% load static %}
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
 </head>
 
 <body>
-<form method="POST">
-    {% csrf_token %}
-    <div class="border d-flex flex-column" style="width:30rem;">
-        <div style="background:black;" class="text-center text-white">
-            <p class="h5 mt-2 py-4 font-weight-bold">Регистрация</p>
-        </div>
-        <div class="mx-4 mt-4 p-3">
-            {% if form.errors %}
-                {% for field in form %}
-                    {% for error in field.errors %}
-                        <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
-                        </div>
+    <div class= "container d-flex
+         align-items-center
+         justify-content-center
+         min-vh-100">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="border d-flex flex-column" style="width:30rem;">
+                <div style="background:black;" class="text-center text-white">
+                    <p class="h5 mt-2 py-4 font-weight-bold">{% block title %}{% endblock %}</p>
+                </div>
+                <div class="mx-4 mt-4 p-3">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% for field in form %}
+                        <tr>
+                            <td>{{ field.label_tag }}:</td>
+                            <td class=form-control">{{ field }}</td>
+                        </tr>
                     {% endfor %}
-                {% endfor %}
-                {% for error in form.non_field_errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% for field in form %}
-                <tr>
-                    <td>{{ field.label_tag }}:</td>
-                    <td class=form-control">{{ field }}</td>
-                </tr>
-            {% endfor %}
-            {% block content %}{% endblock %}
-        </div>
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </form>
     </div>
-</form>
 </body>
 
 </html>

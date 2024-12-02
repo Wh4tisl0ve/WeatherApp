@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.contrib.auth.password_validation import NumericPasswordValidator
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import authenticate
 
 from .validators import validate_latin_and_num
 from .models import User
@@ -47,7 +48,7 @@ class UserCreationForm(forms.ModelForm):
         fields = ["username"]
 
     def clean_username(self):
-        username = self.cleaned_data.get("username")
+        username = self.cleaned_data.get("username").lower()
         if User.objects.filter(username=username).exists():
             raise ValidationError("Такой логин уже существует")
         return username
@@ -80,3 +81,13 @@ class UserAuthorizationForm(forms.Form):
             attrs={"placeholder": "Введите пароль", "class": "form-control"}
         ),
     )
+
+    def clean(self):
+        username = self.cleaned_data.get("username")
+        password = self.cleaned_data.get("password")
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user is None:
+                raise ValidationError("Неверный логин или пароль")
+

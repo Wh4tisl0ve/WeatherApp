@@ -2,15 +2,14 @@
     <div class="container d-flex flex-wrap">
         <ul class="nav me-auto">
             <li class="nav-item"><a href="{% url 'weather:main' %}" class="nav-link link-dark px-2 active"
-                                    aria-current="page">Главная</a>
+                    aria-current="page">Главная</a>
             </li>
         </ul>
         <div class="col-lg-4 col-xl-6">
             <form class="d-flex flex-row mb-2 p-1 bg-white input-group" method="GET"
-                  action="{% url 'weather:search' %}">
+                action="{% url 'weather:search' %}">
                 <input type="search" maxlength="20" class="form-control rounded-0" name='name'
-                       placeholder="Поиск локаций"
-                       aria-label="Search" aria-describedby="search-addon">
+                    placeholder="Поиск локаций" aria-label="Search" aria-describedby="search-addon">
                 <button class="btn btn-secondary rounded-0 flex-shrink-0" type="submit">Поиск</button>
             </form>
         </div>
