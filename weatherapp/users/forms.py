@@ -47,7 +47,7 @@ class UserCreationForm(forms.ModelForm):
         fields = ["username"]
 
     def clean_username(self):
-        username = self.cleaned_data.get("username")
+        username = self.cleaned_data.get("username").lower()
         if User.objects.filter(username=username).exists():
             raise ValidationError("Такой логин уже существует")
         return username
