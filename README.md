@@ -12,7 +12,7 @@
 </p>
 
 ## Запуск проекта
-1. Выполните клонирование проекта `git clone git@github.com:Wh4tisl0ve/Tennis_scoreboard.git`
+1. Выполните клонирование проекта `git clone https://github.com/Wh4tisl0ve/WeatherApp.git`
 2. Выполните установку Docker
 3. Создайте .env файл и заполните переменные окружения  
 **Для dev-версии проекта:**
